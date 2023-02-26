@@ -1,18 +1,57 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror.Examples.Basic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    #region Singleton
+    private static InputManager _instance;
+
+    public static InputManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+    #endregion
+
+    private Vector3 movementVector = new Vector3();
+    
+    [SerializeField]
+    private PlayerController playerObj;
+    
     void Start()
     {
-        
+        _instance = this;
     }
 
+
+
     // Update is called once per frame
-    void Update()
+
+    private void Update()
     {
-        
+      //  MoveInput();
     }
+    
+    
+    private void MoveInput()
+    {
+        movementVector.x = Input.GetAxis("Horizontal");
+        movementVector.z = Input.GetAxis("Vertical");
+        
+        playerObj.CmdMovePlayer(movementVector);
+    }
+
+    public void SetPlayer(PlayerController pl)
+    {
+       
+        playerObj = pl;
+    }
+
 }
