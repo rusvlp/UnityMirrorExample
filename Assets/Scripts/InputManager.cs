@@ -31,22 +31,26 @@ public class InputManager : MonoBehaviour
         _instance = this;
     }
 
-
-
     // Update is called once per frame
 
     private void Update()
     {
-        MoveInput();
+        
+            MoveInput();
+       
+        
     }
     
     
     private void MoveInput()
     {
+        
         movementVector.x = Input.GetAxis("Horizontal");
         movementVector.z = Input.GetAxis("Vertical");
-        
-        playerObj.CmdMovePlayer(movementVector);
+        if (this.playerObj != null)
+        {
+            playerObj.CmdMovePlayer(movementVector);
+        }
     }
 
     public void SetPlayer(PlayerController pl)

@@ -37,6 +37,7 @@ public class PlayerController : NetworkBehaviour
    [Command]
    public void CmdMovePlayer(Vector3 movementVector)
    {
-      rb.AddForce(movementVector.normalized * 2);
-   }
+      rb.AddForce(movementVector.normalized * 10);
+      //print(movementVector.x + " " + movementVector.y);
+    }
 }
