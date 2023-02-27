@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Mirror.Examples.Basic;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-      //  MoveInput();
+        MoveInput();
     }
     
     
