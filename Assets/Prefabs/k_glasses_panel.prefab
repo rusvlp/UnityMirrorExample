@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7252361535656909295}
   - component: {fileID: 8484682615177326494}
   - component: {fileID: 3890326092512909193}
+  - component: {fileID: 7231679391021734962}
   m_Layer: 5
-  m_Name: glasses_panel
+  m_Name: k_glasses_panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,6 +80,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7231679391021734962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983042092251183339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fc46318d977430db51877516685baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text_id: {fileID: 3469772884589241553}
+  text_name: {fileID: 383955997540362261}
+  text_status: {fileID: 747596597045191057}
 --- !u!1 &3220766749305459484
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+using UnityMirrorExample.Server;
 
 public class DevicesListController : MonoBehaviour
 {
     public GameObject panelTitle;
     public GameObject panelPrefab;
+
+    public GameObject k_panelPrefab;
 
     public GameObject parent;
 
@@ -20,7 +27,7 @@ public class DevicesListController : MonoBehaviour
         new Glasses(1, "Синие очки", "Новое"),
         new Glasses(2, "Белые очки", "Новое"),
         new Glasses(3, "Желтые очки", "Новое"),
-      
+
     };
 
     List<Glasses> knownGlasses = new List<Glasses>()
@@ -44,14 +51,21 @@ public class DevicesListController : MonoBehaviour
         GameObject instance = panelTitle;
         Vector2 position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
         instance = Instantiate(unknownSignPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
+
+        int index = 0;
         foreach (Glasses g in unknownGlasses)
         {
             position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
             instance = Instantiate(panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
-            instance.transform.Find("id_tmp").GetComponent<TMP_Text>().text = g.id + "";
-            instance.transform.Find("name_tmp").GetComponent<TMP_Text>().text = g.name;
-            instance.transform.Find("status_tmp").GetComponent<TMP_Text>().text = g.status;
+            var glassComponent = instance.GetComponent<UGlassesComponent>();
+            glassComponent.SetFields(g.id, g.name, g.status);
+            glassComponent.Button.onClick.AddListener(glassComponent.EditName);
+            print(index);
+            index++;
         }
+
+
+
 
         position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
         instance = Instantiate(knownSignPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
@@ -59,15 +73,23 @@ public class DevicesListController : MonoBehaviour
         foreach (Glasses g in knownGlasses)
         {
             position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
-            instance = Instantiate(panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
-            instance.transform.Find("id_tmp").GetComponent<TMP_Text>().text = g.id + "";
-            instance.transform.Find("name_tmp").GetComponent<TMP_Text>().text = g.name;
-            instance.transform.Find("status_tmp").GetComponent<TMP_Text>().text = g.status;
+            instance = Instantiate(k_panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
+            var glassComponent = instance.GetComponent<GlassesComponent>();
+            glassComponent.SetFields(g.id, g.name, g.status);
         }
     }
 
+    private void editName(GameObject gameObject, int id)
+    {
+        print("Editing Glasses with index " + id);
+        print("Instance is " + gameObject.GetHashCode());
+        //throw new NotImplementedException();
+    }
+
+
+
     void Update()
     {
-        
+       
     }
 }

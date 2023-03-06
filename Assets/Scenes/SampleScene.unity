@@ -2837,7 +2837,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelTitle: {fileID: 804190204}
-  panelPrefab: {fileID: 983042092251183339, guid: 34fededa783db4e89a3fa951f4d74482, type: 3}
+  panelPrefab: {fileID: 983042092251183339, guid: 6d82a9af8cd464f51a03283afe2c3165, type: 3}
+  k_panelPrefab: {fileID: 983042092251183339, guid: 34fededa783db4e89a3fa951f4d74482, type: 3}
   parent: {fileID: 1850533576}
   yDistance: 50
   knownSignPrefab: {fileID: 6133651034772209766, guid: 779cbc5a98b074edcb01be4cf781f98a, type: 3}
