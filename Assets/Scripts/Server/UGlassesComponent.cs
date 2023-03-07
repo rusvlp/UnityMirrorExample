@@ -1,12 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
+
 namespace UnityMirrorExample.Server
 {
     public class UGlassesComponent : GlassesComponent
     {
-        public Button Button;
+        public GameObject Button;
+        public GameObject SaveButton;
+        public GameObject EditField; 
 
+        public void EditName()
+        {
+            text_name.SetActive(false);
+            Button.SetActive(false);
+            SaveButton.SetActive(true);
+            EditField.SetActive(true);
+
+        }
+
+        public void FinishEdit()
+        {
+            text_name.SetActive(true);
+            Button.SetActive(true);
+            SaveButton.SetActive(false);
+            EditField.SetActive(false);
+
+            this.Name = EditField.GetComponent<TMP_InputField>().text;
+            this.text_name.GetComponent<TMP_Text>().text = this.Name;
+
+        }
     }
 }
 

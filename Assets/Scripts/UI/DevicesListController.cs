@@ -59,7 +59,8 @@ public class DevicesListController : MonoBehaviour
             instance = Instantiate(panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
             var glassComponent = instance.GetComponent<UGlassesComponent>();
             glassComponent.SetFields(g.id, g.name, g.status);
-            glassComponent.Button.onClick.AddListener(glassComponent.EditName);
+            glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
+            glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
             print(index);
             index++;
         }

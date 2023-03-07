@@ -7,13 +7,13 @@ namespace UnityMirrorExample.Server
     public class GlassesComponent : MonoBehaviour
     {
         public long Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
         public string Status { get; private set; }
 
 
-        [SerializeField] TMP_Text text_id;
-        [SerializeField] TMP_Text text_name;
-        [SerializeField] TMP_Text text_status;
+        [SerializeField] protected TMP_Text text_id;
+        [SerializeField] protected GameObject text_name;
+        [SerializeField] protected TMP_Text text_status;
 
         public void SetFields(long id, string name, string status)
         {
@@ -22,13 +22,10 @@ namespace UnityMirrorExample.Server
             Status = status;
 
             text_id.text = id.ToString();
-            text_name.text = name;
+            text_name.GetComponent<TMP_Text>().text = name;
             text_status.text = status;
         }
-        public void EditName()
-        {
-            print(Name);
-        }
+        
     }
 }
 
