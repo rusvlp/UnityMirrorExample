@@ -58,6 +58,9 @@ public class DevicesListController : MonoBehaviour
             position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
             instance = Instantiate(panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
             var glassComponent = instance.GetComponent<UGlassesComponent>();
+
+            instance.GetComponent<UGlassesComponent>().DevicesListController = this;
+            instance.GetComponent<UGlassesComponent>().Instance = instance;
             glassComponent.SetFields(g.id, g.name, g.status);
             glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
             glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
@@ -77,6 +80,7 @@ public class DevicesListController : MonoBehaviour
             instance = Instantiate(k_panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
             var glassComponent = instance.GetComponent<GlassesComponent>();
             glassComponent.SetFields(g.id, g.name, g.status);
+
         }
     }
 
@@ -87,6 +91,11 @@ public class DevicesListController : MonoBehaviour
         //throw new NotImplementedException();
     }
 
+
+    public void SetKnown(GameObject instance)
+    {
+        instance.GetComponent<UGlassesComponent>().SetKnown();
+    }
 
 
     void Update()

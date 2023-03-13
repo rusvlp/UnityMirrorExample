@@ -7,9 +7,11 @@ namespace UnityMirrorExample.Server
 {
     public class UGlassesComponent : GlassesComponent
     {
+        public GameObject Instance;
         public GameObject Button;
         public GameObject SaveButton;
-        public GameObject EditField; 
+        public GameObject EditField;
+        public DevicesListController DevicesListController;
 
         public void EditName()
         {
@@ -29,6 +31,11 @@ namespace UnityMirrorExample.Server
 
             this.Name = EditField.GetComponent<TMP_InputField>().text;
             this.text_name.GetComponent<TMP_Text>().text = this.Name;
+
+        }
+
+        public void SetKnown()
+        {
 
         }
     }
