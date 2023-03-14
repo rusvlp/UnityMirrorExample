@@ -22,6 +22,10 @@ public class DevicesListController : MonoBehaviour
     public GameObject knownSignPrefab;
     public GameObject unknownSignPrefab;
 
+    private int minSiblingIndex = 0;
+
+    private List<GameObject> elementsInList = new List<GameObject>();
+
     List<Glasses> unknownGlasses = new List<Glasses>()
     {
         new Glasses(1, "Синие очки", "Новое"),
@@ -66,6 +70,8 @@ public class DevicesListController : MonoBehaviour
             glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
             print(index);
             index++;
+
+            elementsInList.Add(instance);
         }
 
 
@@ -80,7 +86,9 @@ public class DevicesListController : MonoBehaviour
             instance = Instantiate(k_panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
             var glassComponent = instance.GetComponent<GlassesComponent>();
             glassComponent.SetFields(g.id, g.name, g.status);
+           
 
+            elementsInList.Add(instance);
         }
     }
 
@@ -92,9 +100,24 @@ public class DevicesListController : MonoBehaviour
     }
 
 
-    public void SetKnown(GameObject instance)
+    public void SetKnown(GameObject instance, GameObject lastInstance)
     {
-        instance.GetComponent<UGlassesComponent>().SetKnown();
+        print("Showing Sibling Indexes: ");
+
+        /*int minSiblingIndex = 0;
+        foreach (GameObject go in elementsInList)
+        {
+            go.transform.SetSiblingIndex(go.transform.GetSiblingIndex() - 1);
+
+            print(go.transform.GetSiblingIndex());
+
+            if (minSiblingIndex < go.transform.GetSiblingIndex())
+            {
+                minSiblingIndex = go.transform.GetSiblingIndex();
+            }
+        } */
+
+        instance.transform.SetSiblingIndex(--minSiblingIndex);
     }
 
 

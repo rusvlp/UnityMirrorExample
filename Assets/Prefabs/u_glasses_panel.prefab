@@ -214,10 +214,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 26, y: 213.98573}
-  m_SizeDelta: {x: -648.8727, y: -910.9337}
+  m_SizeDelta: {x: -648.8727, y: 169.06628}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8484682615177326494
 CanvasRenderer:
@@ -272,9 +272,11 @@ MonoBehaviour:
   text_id: {fileID: 3469772884589241553}
   text_name: {fileID: 8524174260075004347}
   text_status: {fileID: 747596597045191057}
+  Instance: {fileID: 0}
   Button: {fileID: 3836428051246480599}
   SaveButton: {fileID: 603035376968416496}
   EditField: {fileID: 7477711026170024010}
+  DevicesListController: {fileID: 0}
 --- !u!1 &2421442791893207468
 GameObject:
   m_ObjectHideFlags: 0

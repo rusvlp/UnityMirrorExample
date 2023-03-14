@@ -25,18 +25,20 @@ namespace UnityMirrorExample.Server
         public void FinishEdit()
         {
             text_name.SetActive(true);
-            Button.SetActive(true);
+          //  Button.SetActive(true);
             SaveButton.SetActive(false);
             EditField.SetActive(false);
 
             this.Name = EditField.GetComponent<TMP_InputField>().text;
             this.text_name.GetComponent<TMP_Text>().text = this.Name;
 
+            SetKnown();
+
         }
 
         public void SetKnown()
         {
-
+            DevicesListController.SetKnown(this.Instance, DevicesListController.parent);
         }
     }
 }
