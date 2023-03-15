@@ -39,5 +39,10 @@ public class PlayerController : NetworkBehaviour
    {
       rb.AddForce(movementVector.normalized * 10);
       //print(movementVector.x + " " + movementVector.y);
-    }
+   }
+
+   public void MovePlayer(Vector3 movementVector)
+   {
+      rb.AddForce(movementVector.normalized * 10);
+   }
 }

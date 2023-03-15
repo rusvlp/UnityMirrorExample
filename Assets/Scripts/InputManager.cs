@@ -35,10 +35,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        
-            MoveInput();
-       
-        
+        MoveInput();  
     }
     
     
@@ -50,13 +47,13 @@ public class InputManager : MonoBehaviour
         if (this.playerObj != null)
         {
             playerObj.CmdMovePlayer(movementVector);
+            playerObj.MovePlayer(movementVector);
         }
     }
 
     public void SetPlayer(PlayerController pl)
     {
-       
-        playerObj = pl;
+       playerObj = pl;
     }
 
 }
