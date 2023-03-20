@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,24 +27,20 @@ public class DevicesListController : MonoBehaviour
 
     private List<GameObject> elementsInList = new List<GameObject>();
 
+
+    public GameObject NetworkManager;
+
+    private GameObject knownSign;
+
     List<Glasses> unknownGlasses = new List<Glasses>()
     {
-        new Glasses(1, "Синие очки", "Новое"),
-        new Glasses(2, "Белые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
+        
 
     };
 
     List<Glasses> knownGlasses = new List<Glasses>()
     {
-        new Glasses(3, "Желтые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
-        new Glasses(3, "Желтые очки", "Новое"),
+        
     };
 
     //[SerializeField] TMP_Text text;
@@ -79,6 +76,7 @@ public class DevicesListController : MonoBehaviour
 
         position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
         instance = Instantiate(knownSignPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
+        knownSign = instance;
 
         foreach (Glasses g in knownGlasses)
         {
@@ -92,6 +90,45 @@ public class DevicesListController : MonoBehaviour
         }
     }
 
+    private void getConnetctions()
+    {
+        
+    }
+
+    public void AddConnection(NetworkConnection conn)
+    {
+        Glasses g = new Glasses(conn.connectionId + "", "Новое устройство", "Новое");
+        unknownGlasses.Add(g);
+        GameObject instance = Instantiate(panelPrefab, parent.transform);
+
+        var glassComponent = instance.GetComponent<UGlassesComponent>();
+
+
+        instance.GetComponent<UGlassesComponent>().DevicesListController = this;
+        instance.GetComponent<UGlassesComponent>().Instance = instance;
+        glassComponent.SetFields(g.id, g.name, g.status);
+        glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
+        glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
+        knownSign.transform.SetSiblingIndex(knownSign.transform.GetSiblingIndex() + 1);
+    }
+
+    public void AddConnection(NetworkConnection conn, string fingerprint)
+    {
+        Glasses g = new Glasses(fingerprint, "Новое устройство", "Новое");
+        unknownGlasses.Add(g);
+        GameObject instance = Instantiate(panelPrefab, parent.transform);
+
+        var glassComponent = instance.GetComponent<UGlassesComponent>();
+
+
+        instance.GetComponent<UGlassesComponent>().DevicesListController = this;
+        instance.GetComponent<UGlassesComponent>().Instance = instance;
+        glassComponent.SetFields(g.id, g.name, g.status);
+        glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
+        glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
+        knownSign.transform.SetSiblingIndex(knownSign.transform.GetSiblingIndex() + 1);
+    }
+
     private void editName(GameObject gameObject, int id)
     {
         print("Editing Glasses with index " + id);
@@ -102,8 +139,8 @@ public class DevicesListController : MonoBehaviour
 
     public void SetKnown(GameObject instance, GameObject lastInstance)
     {
-        print("Showing Sibling Indexes: ");
 
+        print("Setting Known");
         /*int minSiblingIndex = 0;
         foreach (GameObject go in elementsInList)
         {
@@ -118,6 +155,12 @@ public class DevicesListController : MonoBehaviour
         } */
 
         instance.transform.SetSiblingIndex(--minSiblingIndex);
+
+        string name = instance.GetComponent<UGlassesComponent>().Name;
+        string fingerprint = instance.GetComponent<UGlassesComponent>().Id;
+
+        PlayerPrefs.SetString(fingerprint, name);
+        print(PlayerPrefs.GetString(fingerprint).ToString() + "asdsada");
     }
 
 

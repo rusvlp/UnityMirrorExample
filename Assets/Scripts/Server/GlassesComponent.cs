@@ -6,7 +6,7 @@ namespace UnityMirrorExample.Server
 {
     public class GlassesComponent : MonoBehaviour
     {
-        public long Id { get; private set; }
+        public string Id { get; private set; }
         public string Name { get; protected set; }
         public string Status { get; private set; }
 
@@ -15,7 +15,7 @@ namespace UnityMirrorExample.Server
         [SerializeField] protected GameObject text_name;
         [SerializeField] protected TMP_Text text_status;
 
-        public void SetFields(long id, string name, string status)
+        public void SetFields(string id, string name, string status)
         {
             Id = id;
             Name = name;
