@@ -54,22 +54,22 @@ public class DevicesListController : MonoBehaviour
         instance = Instantiate(unknownSignPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
 
         int index = 0;
-        foreach (Glasses g in unknownGlasses)
-        {
-            position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
-            instance = Instantiate(panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
-            var glassComponent = instance.GetComponent<UGlassesComponent>();
+        //foreach (Glasses g in unknownGlasses)
+        //{
+        //    position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
+        //    instance = Instantiate(panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
+        //    var glassComponent = instance.GetComponent<UGlassesComponent>();
 
-            instance.GetComponent<UGlassesComponent>().DevicesListController = this;
-            instance.GetComponent<UGlassesComponent>().Instance = instance;
-            glassComponent.SetFields(g.id, g.name, g.status);
-            glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
-            glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
-            print(index);
-            index++;
+        //    instance.GetComponent<UGlassesComponent>().DevicesListController = this;
+        //    instance.GetComponent<UGlassesComponent>().Instance = instance;
+        //    glassComponent.SetFields(g.id, g.name, g.status);
+        //    glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
+        //    glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
+        //    print(index);
+        //    index++;
 
-            elementsInList.Add(instance);
-        }
+        //    elementsInList.Add(instance);
+        //}
 
 
 
@@ -78,16 +78,16 @@ public class DevicesListController : MonoBehaviour
         instance = Instantiate(knownSignPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
         knownSign = instance;
 
-        foreach (Glasses g in knownGlasses)
-        {
-            position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
-            instance = Instantiate(k_panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
-            var glassComponent = instance.GetComponent<GlassesComponent>();
-            glassComponent.SetFields(g.id, g.name, g.status);
+        //foreach (Glasses g in knownGlasses)
+        //{
+        //    position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
+        //    instance = Instantiate(k_panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
+        //    var glassComponent = instance.GetComponent<GlassesComponent>();
+        //    glassComponent.SetFields(g.id, g.name, g.status);
            
 
-            elementsInList.Add(instance);
-        }
+        //    elementsInList.Add(instance);
+        //}
     }
 
     private void getConnetctions()
@@ -114,19 +114,36 @@ public class DevicesListController : MonoBehaviour
 
     public void AddConnection(NetworkConnection conn, string fingerprint)
     {
-        Glasses g = new Glasses(fingerprint, "Новое устройство", "Новое");
-        unknownGlasses.Add(g);
-        GameObject instance = Instantiate(panelPrefab, parent.transform);
+        string name = PlayerPrefs.GetString(fingerprint, null);
 
-        var glassComponent = instance.GetComponent<UGlassesComponent>();
+        print(fingerprint + " is trying to connect");
+        print(name + " it can be a name");
+
+        if (name != "")
+        {
+            Glasses kGlasses = new Glasses(fingerprint, name, "Подключено");
+            GameObject kInstance = Instantiate(k_panelPrefab, parent.transform);
+            var kGlassComponent = kInstance.GetComponent<GlassesComponent>();
+            kGlassComponent.SetFields(kGlasses.id, kGlasses.name, kGlasses.status);
+
+        } else
+        {
+            Glasses g = new Glasses(fingerprint, "Новое устройство", "Новое");
+            // unknownGlasses.Add(g);
+            GameObject instance = Instantiate(panelPrefab, parent.transform);
+
+            var glassComponent = instance.GetComponent<UGlassesComponent>();
 
 
-        instance.GetComponent<UGlassesComponent>().DevicesListController = this;
-        instance.GetComponent<UGlassesComponent>().Instance = instance;
-        glassComponent.SetFields(g.id, g.name, g.status);
-        glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
-        glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
+            instance.GetComponent<UGlassesComponent>().DevicesListController = this;
+            instance.GetComponent<UGlassesComponent>().Instance = instance;
+            glassComponent.SetFields(g.id, g.name, g.status);
+            glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
+            glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
+            
+        }
         knownSign.transform.SetSiblingIndex(knownSign.transform.GetSiblingIndex() + 1);
+
     }
 
     private void editName(GameObject gameObject, int id)
@@ -160,9 +177,13 @@ public class DevicesListController : MonoBehaviour
         string fingerprint = instance.GetComponent<UGlassesComponent>().Id;
 
         PlayerPrefs.SetString(fingerprint, name);
-        print(PlayerPrefs.GetString(fingerprint).ToString() + "asdsada");
+        print(PlayerPrefs.GetString(fingerprint).ToString());
     }
 
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
     void Update()
     {
