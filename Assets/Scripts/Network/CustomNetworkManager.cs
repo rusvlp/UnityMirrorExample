@@ -9,6 +9,7 @@ public class CustomNetworkManager : NetworkManager
     private bool isPlayerConnected;
     private bool isMessageSent;
 
+    //Сруктура для сообщения
     public struct FingerprintMessage : NetworkMessage 
     {
         public string fingerprint;
@@ -16,20 +17,21 @@ public class CustomNetworkManager : NetworkManager
 
     public GameObject DevicesListController;
 
-
+    //Метод подключения очков на сервере
     public void OnGlassesConnect(NetworkConnectionToClient conn, FingerprintMessage message)
     {
-
+        print("OnGlassesConnect is called");
         DevicesListController.GetComponent<DevicesListController>().AddConnection(conn, message.fingerprint);
     }
 
-
+    //Метод регистрации обработчика сетевого сообщения 
     public override void OnStartServer()
     {
         base.OnStartServer();
         NetworkServer.RegisterHandler<FingerprintMessage>(OnGlassesConnect); 
     }
 
+    // Метод отпрвыки фингерпринта
     public void SendFingerprint()
     {
         FingerprintMessage fMsg = new FingerprintMessage()
@@ -41,6 +43,7 @@ public class CustomNetworkManager : NetworkManager
         isMessageSent = true;
     }
 
+    // Метод подключения клиента к серверу
     public override void OnClientConnect()
     {
         base.OnClientConnect();

@@ -114,6 +114,7 @@ public class DevicesListController : MonoBehaviour
 
     public void AddConnection(NetworkConnection conn, string fingerprint)
     {
+       
         string name = PlayerPrefs.GetString(fingerprint, null);
 
         print(fingerprint + " is trying to connect");
@@ -122,27 +123,15 @@ public class DevicesListController : MonoBehaviour
         if (name != "")
         {
             Glasses kGlasses = new Glasses(fingerprint, name, "Подключено");
-            GameObject kInstance = Instantiate(k_panelPrefab, parent.transform);
-            var kGlassComponent = kInstance.GetComponent<GlassesComponent>();
-            kGlassComponent.SetFields(kGlasses.id, kGlasses.name, kGlasses.status);
+            PutToKnown(kGlasses);
 
         } else
         {
             Glasses g = new Glasses(fingerprint, "Новое устройство", "Новое");
-            // unknownGlasses.Add(g);
-            GameObject instance = Instantiate(panelPrefab, parent.transform);
-
-            var glassComponent = instance.GetComponent<UGlassesComponent>();
-
-
-            instance.GetComponent<UGlassesComponent>().DevicesListController = this;
-            instance.GetComponent<UGlassesComponent>().Instance = instance;
-            glassComponent.SetFields(g.id, g.name, g.status);
-            glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
-            glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
+            PutToUnknown(g);
             
         }
-        knownSign.transform.SetSiblingIndex(knownSign.transform.GetSiblingIndex() + 1);
+        
 
     }
 
@@ -183,6 +172,32 @@ public class DevicesListController : MonoBehaviour
     public void ClearPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    private void PutToKnown(Glasses kGlasses)
+    {
+        GameObject kInstance = Instantiate(k_panelPrefab, parent.transform);
+        var kGlassComponent = kInstance.GetComponent<GlassesComponent>();
+        kGlassComponent.SetFields(kGlasses.id, kGlasses.name, kGlasses.status);
+
+        kInstance.transform.SetSiblingIndex(knownSign.transform.GetSiblingIndex() + 1);
+    }
+
+    private void PutToUnknown(Glasses g)
+    {
+        GameObject instance = Instantiate(panelPrefab, parent.transform);
+
+        var glassComponent = instance.GetComponent<UGlassesComponent>();
+
+
+        instance.GetComponent<UGlassesComponent>().DevicesListController = this;
+        instance.GetComponent<UGlassesComponent>().Instance = instance;
+        glassComponent.SetFields(g.id, g.name, g.status);
+        glassComponent.Button.GetComponent<Button>().onClick.AddListener(glassComponent.EditName);
+        glassComponent.SaveButton.GetComponent<Button>().onClick.AddListener(glassComponent.FinishEdit);
+
+
+        instance.transform.SetSiblingIndex(1);
     }
 
     void Update()
