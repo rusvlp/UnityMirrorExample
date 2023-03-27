@@ -64,5 +64,12 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
+    public override void OnClientDisconnect()
+    {
+        base.OnClientDisconnect();
+        isPlayerConnected = false;
+        isMessageSent = false;
+    }
+
 
 }
