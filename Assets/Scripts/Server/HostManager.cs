@@ -4,10 +4,12 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 
-public class HostManager : MonoBehaviour
+public class HostManager : NetworkBehaviour
 {
     public NetworkManager manager;
     public TMP_Text serverStatus;
+    public GameObject StopHostBtn;
+    public GameObject StopServerBtn;
 
     // Start is called before the first frame update
     void Start()
@@ -18,20 +20,30 @@ public class HostManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isServer)
+        {
+            StopHostBtn.SetActive(true);
+            StopServerBtn.SetActive(false);
+        } else if (isServerOnly)
+        {
+            StopServerBtn.SetActive(true);
+            StopHostBtn.SetActive(false);
+        }
     }
 
-    public void StartHost()
+    public void StopHost()
     {
-        manager.StartHost();
+        manager.StopHost();
+        /*manager.StartHost();
         serverStatus.text = "Хост активен";
-        serverStatus.color = new Color(10, 244, 10, 255);
+        serverStatus.color = new Color(10, 244, 10, 255); */
     }
 
-    public void StartServer()
+    public void StopServer()
     {
-        manager.StartServer();
+        manager.StopServer();
+        /*manager.StartServer();
         serverStatus.text = "Сервер активен";
-        serverStatus.color = new Color(10, 244, 10, 255);
+        serverStatus.color = new Color(10, 244, 10, 255); */
     }
 }

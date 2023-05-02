@@ -30,4 +30,14 @@ public class ConnectManager : MonoBehaviour
         manager.networkAddress = ip_InputField.text;
         manager.StartClient();
     }
+
+    public void StartServer()
+    {
+        manager.StartServer();
+    }
+
+    public void StartHost()
+    {
+        manager.StartHost();
+    }
 }

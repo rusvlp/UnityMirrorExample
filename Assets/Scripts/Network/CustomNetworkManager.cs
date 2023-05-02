@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -9,6 +11,19 @@ public class CustomNetworkManager : NetworkManager
     private bool isPlayerConnected;
     private bool isMessageSent;
 
+    public Scene OnlineServerScene;
+    //public string Something;
+    
+   
+
+    [Scene]
+    [FormerlySerializedAs("c_OnlineScene")]
+   // [Tooltip("Scene that Mirror will switch to when the server is started. Clients will recieve a Scene Message to load the server's current scene when they connect.")]
+    public string ServerOnlineScene = "";
+
+    [Scene]
+    [FormerlySerializedAs("c_OfflineScene")]
+    public string ServerOfflineScene = "";
     //Сруктура для сообщения
     public struct FingerprintMessage : NetworkMessage 
     {
@@ -28,7 +43,14 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
-        NetworkServer.RegisterHandler<FingerprintMessage>(OnGlassesConnect); 
+        NetworkServer.RegisterHandler<FingerprintMessage>(OnGlassesConnect);
+        
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+       
     }
 
     // Метод отпрвыки фингерпринта
@@ -43,18 +65,31 @@ public class CustomNetworkManager : NetworkManager
         isMessageSent = true;
     }
 
-    // Метод подключения клиента к серверу
+    // Метод подключения клиента к серверу (на клиенте (?))
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-        isPlayerConnected = true;
+        isPlayerConnected = true;   
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-       base.OnServerAddPlayer(conn);
+        base.OnServerAddPlayer(conn);
+        NetworkServer.SetClientReady(conn);
        // DevicesListController.GetComponent<DevicesListController>().AddConnection(conn);
     }
+
+    public override void OnStartHost()
+    {
+        base.OnStartHost();
+    }
+
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+        
+    }
+
 
     private void Update()
     {
@@ -71,5 +106,5 @@ public class CustomNetworkManager : NetworkManager
         isMessageSent = false;
     }
 
-
+    
 }
