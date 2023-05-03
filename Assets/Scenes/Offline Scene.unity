@@ -1876,7 +1876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 766b7870bee21458198e56343e02968f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClientGroup: {fileID: 0}
+  ClientGroup: {fileID: 1012777066}
   ServerGroup: {fileID: 752704300}
 --- !u!1 &1519298435
 GameObject:
@@ -2188,6 +2188,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs: []
   timeInterpolationGui: 0
+  ObjectIdentifier: From Offline Scene
   OnlineServerScene:
     m_Handle: 0
   ServerOnlineScene: 

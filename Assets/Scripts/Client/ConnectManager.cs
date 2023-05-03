@@ -33,11 +33,13 @@ public class ConnectManager : MonoBehaviour
 
     public void StartServer()
     {
+        print("Going to start server");
         manager.StartServer();
     }
 
     public void StartHost()
     {
+        print("Going to start host");
         manager.StartHost();
     }
 }

@@ -54,6 +54,7 @@ public class DevicesListController : MonoBehaviour
         instance = Instantiate(unknownSignPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
 
         int index = 0;
+        #region Commented
         //foreach (Glasses g in unknownGlasses)
         //{
         //    position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
@@ -70,7 +71,7 @@ public class DevicesListController : MonoBehaviour
 
         //    elementsInList.Add(instance);
         //}
-
+        #endregion
 
 
 
@@ -78,16 +79,22 @@ public class DevicesListController : MonoBehaviour
         instance = Instantiate(knownSignPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
         knownSign = instance;
 
+        #region Commented
         //foreach (Glasses g in knownGlasses)
         //{
         //    position = new Vector2(instance.transform.position.x, instance.transform.position.y - yDistance);
         //    instance = Instantiate(k_panelPrefab, position, new Quaternion(0, 0, 0, 1), parent.transform);
         //    var glassComponent = instance.GetComponent<GlassesComponent>();
         //    glassComponent.SetFields(g.id, g.name, g.status);
-           
+
 
         //    elementsInList.Add(instance);
         //}
+        #endregion
+
+        //NetworkManager = CustomNetworkManager.Instance;
+        CustomNetworkManager.Instance.devicesListController = this;
+
     }
 
     private void getConnetctions()

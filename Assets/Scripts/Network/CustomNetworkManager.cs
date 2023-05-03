@@ -7,14 +7,33 @@ using UnityEngine.Serialization;
 
 public class CustomNetworkManager : NetworkManager
 {
-    // Start is called before the first frame update
+    public string ObjectIdentifier;
+    
     private bool isPlayerConnected;
     private bool isMessageSent;
 
     public Scene OnlineServerScene;
     //public string Something;
-    
-   
+
+
+    #region Singleton
+    private static CustomNetworkManager _instance;
+
+    public static CustomNetworkManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
+    #endregion
+
+    private void Start()
+    {
+        _instance = this;
+    }
+
 
     [Scene]
     [FormerlySerializedAs("c_OnlineScene")]
@@ -30,13 +49,13 @@ public class CustomNetworkManager : NetworkManager
         public string fingerprint;
     }
 
-    public GameObject DevicesListController;
+    public DevicesListController devicesListController;
 
     //Метод подключения очков на сервере
     public void OnGlassesConnect(NetworkConnectionToClient conn, FingerprintMessage message)
     {
         print("OnGlassesConnect is called");
-        DevicesListController.GetComponent<DevicesListController>().AddConnection(conn, message.fingerprint);
+        devicesListController.AddConnection(conn, message.fingerprint);
     }
 
     //Метод регистрации обработчика сетевого сообщения 
@@ -87,7 +106,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
-        
+    
     }
 
 
@@ -106,5 +125,9 @@ public class CustomNetworkManager : NetworkManager
         isMessageSent = false;
     }
 
+    public override void OnDestroy()
+    {
+        print("Net Manager Destroyed");
+    }
     
 }

@@ -1541,7 +1541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &451693156
 Transform:
   m_ObjectHideFlags: 0
@@ -1626,6 +1626,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs: []
   timeInterpolationGui: 0
+  ObjectIdentifier: 
   OnlineServerScene:
     m_Handle: 0
   ServerOnlineScene: 
@@ -3886,7 +3887,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  manager: {fileID: 451693161}
+  manager: {fileID: 0}
   serverStatus: {fileID: 1528786518}
   StopHostBtn: {fileID: 698569153}
   StopServerBtn: {fileID: 1784769368}

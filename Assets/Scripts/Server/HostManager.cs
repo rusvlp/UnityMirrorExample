@@ -14,7 +14,7 @@ public class HostManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        manager = CustomNetworkManager.Instance;
     }
 
     // Update is called once per frame
