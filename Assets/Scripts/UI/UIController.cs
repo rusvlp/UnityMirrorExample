@@ -9,13 +9,20 @@ public class UIController : MonoBehaviour
     public GameObject devicesList_window;
     public GameObject sessions_window;
 
-   
+    public CustomNetworkManager manager;
 
+    public TMP_Text serverStatus;
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    private void Start()
+    {
+        this.manager = CustomNetworkManager.Instance;
+        
     }
 
     public void CloseWindow()

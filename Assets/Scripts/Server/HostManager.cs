@@ -11,24 +11,40 @@ public class HostManager : NetworkBehaviour
     public GameObject StopHostBtn;
     public GameObject StopServerBtn;
 
+    public TMP_Text statusSign;
+
     // Start is called before the first frame update
     void Start()
     {
         manager = CustomNetworkManager.Instance;
+
+        if (isServer)
+        {
+            statusSign.text = "Хост активен";
+            StopHostBtn.SetActive(true);
+            StopServerBtn.SetActive(false);
+        }
+        else if (isServerOnly)
+        {
+            statusSign.text = "Сервер активен";
+            StopServerBtn.SetActive(true);
+            StopHostBtn.SetActive(false);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isServer)
-        {
-            StopHostBtn.SetActive(true);
-            StopServerBtn.SetActive(false);
-        } else if (isServerOnly)
-        {
-            StopServerBtn.SetActive(true);
-            StopHostBtn.SetActive(false);
-        }
+        //if (isServer)
+        //{
+        //    StopHostBtn.SetActive(true);
+        //    StopServerBtn.SetActive(false);
+        //} else if (isServerOnly)
+        //{
+        //    StopServerBtn.SetActive(true);
+        //    StopHostBtn.SetActive(false);
+        //}
     }
 
     public void StopHost()
