@@ -8,12 +8,13 @@ public class Match : NetworkBehaviour
 {
     public string matchID;
 
-    public SyncListGameObject players = new SyncListGameObject();
+    public SyncListGameObject players = new();
 
     public Match(string matchID, GameObject playerHost)
     {
+       // print("Match ctor is called " + this);
         this.matchID = matchID;
-        players.Add(playerHost);
+        this.players.Add(playerHost);
     }
 
     public Match() {}
@@ -32,6 +33,7 @@ public class Match : NetworkBehaviour
     }
     #endregion
 }
+
 
 [System.Serializable]
 public class SyncListGameObject : SyncList<GameObject>

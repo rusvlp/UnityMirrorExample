@@ -11,6 +11,8 @@ public class MatchMaker : NetworkBehaviour
 {
     public static MatchMaker Instance;
 
+    public Match matchPrefab;
+    
     public SyncListMatch matches = new SyncListMatch();
     public SyncListString matchIDs = new SyncListString();
 
@@ -19,7 +21,11 @@ public class MatchMaker : NetworkBehaviour
         if (!matchIDs.Contains(_matchID))
         {
             matchIDs.Add(_matchID);
-            matches.Add(new Match(_matchID, _player));
+            Match match = Instantiate(matchPrefab);
+            match.matchID = _matchID;
+            match.players.Add(_player);
+            matches.Add(match);
+            print("Match added " + match);
             print("Match created");
             return true;
         } else
@@ -30,6 +36,22 @@ public class MatchMaker : NetworkBehaviour
         
     }
 
+    public bool JoinGame(string _matchID, GameObject _player)
+    {
+        if (matchIDs.Contains(_matchID))
+        {
+            matches.Find(match => match.matchID == _matchID).players.Add(_player);
+            print("Match joined");
+            return true;
+        } else
+        {
+            print("Match does not exists");
+            return false;
+        }
+        
+    }
+
+    
 
     //// Start is called before the first frame update
     void Start()

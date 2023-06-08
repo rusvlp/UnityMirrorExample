@@ -50,12 +50,14 @@ public class CustomNetworkManager : NetworkManager
     }
 
     public DevicesListController devicesListController;
-
+ 
     //Метод подключения очков на сервере
     public void OnGlassesConnect(NetworkConnectionToClient conn, FingerprintMessage message)
     {
         print("OnGlassesConnect is called");
-        devicesListController.AddConnection(conn, message.fingerprint);
+        
+        // Добавить проверку сцены (оффлайновая она или онлайновая)
+        // devicesListController.AddConnection(conn, message.fingerprint);
     }
 
     //Метод регистрации обработчика сетевого сообщения 
@@ -72,7 +74,7 @@ public class CustomNetworkManager : NetworkManager
        
     }
 
-    // Метод отпрвыки фингерпринта
+    // Метод отправки фингерпринта
     public void SendFingerprint()
     {
         FingerprintMessage fMsg = new FingerprintMessage()

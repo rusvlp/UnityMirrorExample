@@ -17,6 +17,13 @@ public class ConnectManager : MonoBehaviour
     public TMP_InputField ip_InputField;
     public TMP_InputField matchId_InputField;
 
+    public GameObject LobbyCanvas;
+
+
+    private bool isHostStarting = false;
+    private bool isServerStarting = false;
+    private bool isMatchJoining = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +33,12 @@ public class ConnectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (isHostStarting && Player.localPlayer != null)
+        {
+            print("Calling method Host() from LocalPlayer");
+            Player.localPlayer.Host();
+            isHostStarting = false;
+        }
     }
 
     public void Connect()
@@ -38,30 +50,36 @@ public class ConnectManager : MonoBehaviour
 
     public void StartServer()
     {
+        /*
         print("Going to start server");
         manager.StartServer();
+        */
     }
 
     public void StartHost()
     {
+        isHostStarting = true;
         print("Going to start host");
         manager.StartHost();
-
-        Player.localPlayer.Host();
-
+        
+        
+        //Player.localPlayer.Host();
+      
+        
     }
 
     public void JoinMatch()
     {
-
+        Player.localPlayer.Join(matchId_InputField.text);
     }
 
     public void HostSuccess(bool success)
     {
         if (success)
         {
-
-        }
+            print("hosted succeed. loading canvas");
+            LobbyCanvas.SetActive(true);
+        } 
     }
 
     public void JoinSuccess(bool success)
@@ -71,4 +89,6 @@ public class ConnectManager : MonoBehaviour
 
         }
     }
+    
+    
 }
