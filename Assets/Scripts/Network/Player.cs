@@ -31,6 +31,10 @@ public class Player : NetworkBehaviour
         CmdHostGame(matchId);
     }
 
+    /*
+     * Запрос от клиента на сервер для соеднинения
+     */
+    
     [Command]
     void CmdHostGame(string _matchID)
     {
@@ -47,6 +51,10 @@ public class Player : NetworkBehaviour
         }
     }
 
+    /*
+     * Отправка ответа на клиент о результате подключения
+     */
+    
     [TargetRpc]
     void TargetHostGame(bool success, string _matchID)
     {

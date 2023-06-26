@@ -40,8 +40,10 @@ public class MatchMaker : NetworkBehaviour
     {
         if (matchIDs.Contains(_matchID))
         {
-            matches.Find(match => match.matchID == _matchID).players.Add(_player);
+            Match match = matches.Find(match => match.matchID == _matchID);
+            match.players.Add(_player);
             print("Match joined");
+            print(match.GetInfoAboutMatch());
             return true;
         } else
         {

@@ -19,6 +19,20 @@ public class Match : NetworkBehaviour
 
     public Match() {}
 
+
+    public string GetInfoAboutMatch()
+    {
+        string result = $"Match id is {this.matchID}, players:\n";
+
+        int index = 0;
+        foreach (GameObject go in players)
+        {
+            result += $"Player {index}, hashCode: {go.GetHashCode()}\n";
+        }
+        
+        return result;
+    }
+    
     #region StartAndUpdate
     // Start is called before the first frame update
     void Start()
