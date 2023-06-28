@@ -18,11 +18,16 @@ public class ConnectManager : MonoBehaviour
     public GameObject playerInfoPrefab;
     public TMP_Text matchIdTag;
     
+    [Header("Host Join")]
+    
     public TMP_InputField ip_InputField;
     public TMP_InputField matchId_InputField;
 
-    public GameObject LobbyCanvas;
-    
+    public Canvas LobbyCanvas;
+
+    [Header("Lobby")] 
+    public Transform UIPlayerParent;
+    public GameObject UIPlayerPrefab;
     
 
     private bool isHostStarting = false;
@@ -79,7 +84,7 @@ public class ConnectManager : MonoBehaviour
 
     
     
-    public void AddInfoAboutPlayerToCanvas(string _identifier)
+    public void AddInfoAboutPlayerToServerCanvas(string _identifier)
     {
 
         Vector3 position = new Vector3(LobbyCanvas.transform.position.x, LobbyCanvas.transform.position.y, 0);
@@ -111,7 +116,7 @@ public class ConnectManager : MonoBehaviour
         if (success)
         {
             print("hosted succeed. loading canvas");
-            LobbyCanvas.SetActive(true);
+            LobbyCanvas.enabled = true;
             matchIdTag.text = _matchId;
             //AddInfoAboutPlayerToCanvas("test");
         } 
@@ -124,6 +129,11 @@ public class ConnectManager : MonoBehaviour
 
         }
     }
-    
-    
+
+    public void SpawnPlayerUIPrefab(Player player)
+    {
+        print("Spawning UI Player Prefab"); 
+        GameObject UIPlayer = Instantiate(UIPlayerPrefab, UIPlayerParent);   
+        UIPlayer.GetComponent<UIPlayer>().SetPlayer(player);
+    }
 }

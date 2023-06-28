@@ -8,11 +8,14 @@ public class Player : NetworkBehaviour
     public static Player localPlayer;
     NetworkMatch networkMatch;
 
+    [SyncVar]
     public string MatchID;
+
+    [SyncVar] public int playerIndex;
 
     private void Start()
     {
-        
+        networkMatch = GetComponent<NetworkMatch>();
         
        // print("Local Player Start() is Called");
         
@@ -20,8 +23,14 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             localPlayer = this;
+            
         }
-        networkMatch = GetComponent<NetworkMatch>();
+        else
+        {
+            ConnectManager.Instance.SpawnPlayerUIPrefab(this);
+            //ConnectManager.Instance.SpawnPlayerUIPrefab(this);
+        }
+        
     }
 
     public void Host()
@@ -39,7 +48,7 @@ public class Player : NetworkBehaviour
     void CmdHostGame(string _matchID)
     {
         this.MatchID = _matchID;
-       if (MatchMaker.Instance.HostGame(_matchID, gameObject))
+       if (MatchMaker.Instance.HostGame(_matchID, this.gameObject, out this.playerIndex))
         {
             networkMatch.matchId = _matchID.toGuid();
             print("Game hosted successfully");
@@ -74,12 +83,12 @@ public class Player : NetworkBehaviour
     void CmdJoinGame(string _matchID)
     {
         this.MatchID = _matchID;
-        if (MatchMaker.Instance.JoinGame(_matchID, gameObject))
+        if (MatchMaker.Instance.JoinGame(_matchID, gameObject, out this.playerIndex))
         {
             networkMatch.matchId = _matchID.toGuid();
             print("Game joined successfully");
             
-            ConnectManager.Instance.AddInfoAboutPlayerToCanvas(MatchMaker.Instance.matches.Find(match => match.matchID == _matchID).players.Count + "");
+            //ConnectManager.Instance.AddInfoAboutPlayerToServerCanvas(MatchMaker.Instance.matches.Find(match => match.matchID == _matchID).players.Count + "");
             
             TargetJoinGame(true, _matchID);
         } else

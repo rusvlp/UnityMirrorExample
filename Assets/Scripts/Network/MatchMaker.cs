@@ -16,8 +16,9 @@ public class MatchMaker : NetworkBehaviour
     public SyncListMatch matches = new SyncListMatch();
     public SyncListString matchIDs = new SyncListString();
 
-    public bool HostGame(string _matchID, GameObject _player)
+    public bool HostGame(string _matchID, GameObject _player, out int playerIndex)
     {
+        playerIndex = -1;
         if (!matchIDs.Contains(_matchID))
         {
             matchIDs.Add(_matchID);
@@ -27,6 +28,7 @@ public class MatchMaker : NetworkBehaviour
             matches.Add(match);
             print("Match added " + match);
             print("Match created");
+            playerIndex = 1;
             return true;
         } else
         {
@@ -36,14 +38,16 @@ public class MatchMaker : NetworkBehaviour
         
     }
 
-    public bool JoinGame(string _matchID, GameObject _player)
+    public bool JoinGame(string _matchID, GameObject _player, out int playerIndex)
     {
+        playerIndex = -1;
         if (matchIDs.Contains(_matchID))
         {
             Match match = matches.Find(match => match.matchID == _matchID);
             match.players.Add(_player);
             print("Match joined");
             print(match.GetInfoAboutMatch());
+            playerIndex = match.players.Count;
             return true;
         } else
         {
