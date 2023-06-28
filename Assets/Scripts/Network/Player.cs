@@ -59,7 +59,7 @@ public class Player : NetworkBehaviour
     void TargetHostGame(bool success, string _matchID)
     {
         print("Match id is: " + _matchID);
-        ConnectManager.Instance.HostSuccess(success);
+        ConnectManager.Instance.HostSuccess(success, _matchID);
     }
 
 
@@ -78,6 +78,9 @@ public class Player : NetworkBehaviour
         {
             networkMatch.matchId = _matchID.toGuid();
             print("Game joined successfully");
+            
+            ConnectManager.Instance.AddInfoAboutPlayerToCanvas(MatchMaker.Instance.matches.Find(match => match.matchID == _matchID).players.Count + "");
+            
             TargetJoinGame(true, _matchID);
         } else
         {

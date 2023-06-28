@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,11 +15,15 @@ public class ConnectManager : MonoBehaviour
 
     public CustomNetworkManager manager;
 
+    public GameObject playerInfoPrefab;
+    public TMP_Text matchIdTag;
+    
     public TMP_InputField ip_InputField;
     public TMP_InputField matchId_InputField;
 
     public GameObject LobbyCanvas;
-
+    
+    
 
     private bool isHostStarting = false;
     private bool isServerStarting = false;
@@ -28,6 +33,7 @@ public class ConnectManager : MonoBehaviour
     void Start()
     {
         Instance = this; 
+        Test();
     }
 
     // Update is called once per frame
@@ -39,13 +45,28 @@ public class ConnectManager : MonoBehaviour
             Player.localPlayer.Host();
             isHostStarting = false;
         }
+
+        if (isMatchJoining && Player.localPlayer != null)
+        {
+            print("Calling method Join() from LocalPlayer");
+            Player.localPlayer.Join(matchId_InputField.text);
+            isMatchJoining = false;
+        }
     }
 
+
+    private void Test()
+    {
+        print("Test message for breakpoint testing");
+    }
+    
     public void Connect()
     {
         print("trying to connect");
         manager.networkAddress = ip_InputField.text;
         manager.StartClient();
+        isMatchJoining = true;
+
     }
 
     public void StartServer()
@@ -56,6 +77,18 @@ public class ConnectManager : MonoBehaviour
         */
     }
 
+    
+    
+    public void AddInfoAboutPlayerToCanvas(string _identifier)
+    {
+
+        Vector3 position = new Vector3(LobbyCanvas.transform.position.x, LobbyCanvas.transform.position.y, 0);
+        Quaternion rotation = new Quaternion(0,0,0,0);
+        TMP_Text playerInfo = Instantiate(playerInfoPrefab, position, rotation, LobbyCanvas.transform).GetComponent<TMP_Text>();
+        playerInfo.text = _identifier;
+        print(playerInfo);
+    }
+    
     public void StartHost()
     {
         isHostStarting = true;
@@ -70,15 +103,17 @@ public class ConnectManager : MonoBehaviour
 
     public void JoinMatch()
     {
-        Player.localPlayer.Join(matchId_InputField.text);
+        
     }
 
-    public void HostSuccess(bool success)
+    public void HostSuccess(bool success, string _matchId)
     {
         if (success)
         {
             print("hosted succeed. loading canvas");
             LobbyCanvas.SetActive(true);
+            matchIdTag.text = _matchId;
+            //AddInfoAboutPlayerToCanvas("test");
         } 
     }
 
