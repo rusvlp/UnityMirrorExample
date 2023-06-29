@@ -122,11 +122,12 @@ public class ConnectManager : MonoBehaviour
         } 
     }
 
-    public void JoinSuccess(bool success)
+    public void JoinSuccess(bool success, string _matchId)
     {
         if (success)
         {
-
+            LobbyCanvas.enabled = true;
+            matchIdTag.text = _matchId;
         }
     }
 

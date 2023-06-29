@@ -103,8 +103,14 @@ public class Player : NetworkBehaviour
     void TargetJoinGame(bool success, string _matchID)
     {
         print("Match id is: " + _matchID);
-        ConnectManager.Instance.JoinSuccess(success);
-        
+        ConnectManager.Instance.JoinSuccess(success, _matchID);
+        foreach (GameObject p in MatchMaker.Instance.matches.Find(
+                     match => match.matchID == _matchID
+                     ).players)
+        {
+            ConnectManager.Instance.SpawnPlayerUIPrefab(p.GetComponent<Player>());
+        }
+       
     }    
 
     #region Commented
