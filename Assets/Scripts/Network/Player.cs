@@ -89,6 +89,7 @@ public class Player : NetworkBehaviour
         this.MatchID = _matchID;
         if (MatchMaker.Instance.JoinGame(_matchID, gameObject, out this.playerIndex))
         {
+            TargetPrint("Current player Index is: " + this.playerIndex);
             players = MatchMaker.Instance.matches
                 .Find(match => match.matchID == _matchID)
                 .players
@@ -109,15 +110,17 @@ public class Player : NetworkBehaviour
     }
 
     [TargetRpc]
+    public void TargetPrint(string message)
+    {
+        print(message);
+    }
+    
+    [TargetRpc]
     void TargetJoinGame(bool success, string _matchID, List<Player> players)
     {
         print("Match id is: " + _matchID);
         ConnectManager.Instance.JoinSuccess(success, _matchID);
 
-        print(MatchMaker.Instance.matches.Find(
-            match => match.matchID == _matchID
-        ));
-        
         foreach (Player p in players)
         {
             ConnectManager.Instance.SpawnPlayerUIPrefab(p);
