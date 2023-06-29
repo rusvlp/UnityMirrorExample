@@ -23,7 +23,7 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             localPlayer = this;
-            ConnectManager.Instance.SpawnPlayerUIPrefab(this);
+           // ConnectManager.Instance.SpawnPlayerUIPrefab(this);
         }
         else
         {
@@ -90,7 +90,7 @@ public class Player : NetworkBehaviour
             print("Game joined successfully");
             
             //ConnectManager.Instance.AddInfoAboutPlayerToServerCanvas(MatchMaker.Instance.matches.Find(match => match.matchID == _matchID).players.Count + "");
-            
+            ConnectManager.Instance.SpawnPlayerUIPrefab(this);
             TargetJoinGame(true, _matchID);
         } else
         {
@@ -104,7 +104,7 @@ public class Player : NetworkBehaviour
     {
         print("Match id is: " + _matchID);
         ConnectManager.Instance.JoinSuccess(success);
-        ConnectManager.Instance.SpawnPlayerUIPrefab(this);
+        
     }    
 
     #region Commented
