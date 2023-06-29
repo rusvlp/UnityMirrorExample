@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 
@@ -83,32 +84,43 @@ public class Player : NetworkBehaviour
     [Command]
     void CmdJoinGame(string _matchID)
     {
+        List<Player> players;
+        
         this.MatchID = _matchID;
         if (MatchMaker.Instance.JoinGame(_matchID, gameObject, out this.playerIndex))
         {
+            players = MatchMaker.Instance.matches
+                .Find(match => match.matchID == _matchID)
+                .players
+                .Select(go => go.GetComponent<Player>())
+                .ToList();
+            
             networkMatch.matchId = _matchID.toGuid();
             print("Game joined successfully");
             
             //ConnectManager.Instance.AddInfoAboutPlayerToServerCanvas(MatchMaker.Instance.matches.Find(match => match.matchID == _matchID).players.Count + "");
             ConnectManager.Instance.SpawnPlayerUIPrefab(this);
-            TargetJoinGame(true, _matchID);
+            TargetJoinGame(true, _matchID, players);
         } else
         {
             print("Game joined failed");
-            TargetJoinGame(false, _matchID);
+            TargetJoinGame(false, _matchID, null);
         }
     }
 
     [TargetRpc]
-    void TargetJoinGame(bool success, string _matchID)
+    void TargetJoinGame(bool success, string _matchID, List<Player> players)
     {
         print("Match id is: " + _matchID);
         ConnectManager.Instance.JoinSuccess(success, _matchID);
-        foreach (GameObject p in MatchMaker.Instance.matches.Find(
-                     match => match.matchID == _matchID
-                     ).players)
+
+        print(MatchMaker.Instance.matches.Find(
+            match => match.matchID == _matchID
+        ));
+        
+        foreach (Player p in players)
         {
-            ConnectManager.Instance.SpawnPlayerUIPrefab(p.GetComponent<Player>());
+            ConnectManager.Instance.SpawnPlayerUIPrefab(p);
         }
        
     }    
