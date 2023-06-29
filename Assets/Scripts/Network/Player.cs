@@ -16,14 +16,14 @@ public class Player : NetworkBehaviour
     private void Start()
     {
         networkMatch = GetComponent<NetworkMatch>();
-        ConnectManager.Instance.SpawnPlayerUIPrefab(this);
+        
        // print("Local Player Start() is Called");
         
         print("Is local player: " + isLocalPlayer);
         if (isLocalPlayer)
         {
             localPlayer = this;
-            
+            ConnectManager.Instance.SpawnPlayerUIPrefab(this);
         }
         else
         {
@@ -69,6 +69,7 @@ public class Player : NetworkBehaviour
     {
         print("Match id is: " + _matchID);
         ConnectManager.Instance.HostSuccess(success, _matchID);
+        ConnectManager.Instance.SpawnPlayerUIPrefab(this);
     }
 
 
@@ -103,6 +104,7 @@ public class Player : NetworkBehaviour
     {
         print("Match id is: " + _matchID);
         ConnectManager.Instance.JoinSuccess(success);
+        ConnectManager.Instance.SpawnPlayerUIPrefab(this);
     }    
 
     #region Commented
