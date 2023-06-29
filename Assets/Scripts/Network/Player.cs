@@ -16,7 +16,7 @@ public class Player : NetworkBehaviour
     private void Start()
     {
         networkMatch = GetComponent<NetworkMatch>();
-        
+        ConnectManager.Instance.SpawnPlayerUIPrefab(this);
        // print("Local Player Start() is Called");
         
         print("Is local player: " + isLocalPlayer);
@@ -27,7 +27,7 @@ public class Player : NetworkBehaviour
         }
         else
         {
-            ConnectManager.Instance.SpawnPlayerUIPrefab(this);
+            
             //ConnectManager.Instance.SpawnPlayerUIPrefab(this);
         }
         

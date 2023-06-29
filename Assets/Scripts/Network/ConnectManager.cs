@@ -38,7 +38,7 @@ public class ConnectManager : MonoBehaviour
     void Start()
     {
         Instance = this; 
-        Test();
+   //     Test();
     }
 
     // Update is called once per frame
