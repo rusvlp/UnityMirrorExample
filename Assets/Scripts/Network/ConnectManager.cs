@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ConnectManager : MonoBehaviour
@@ -28,11 +30,18 @@ public class ConnectManager : MonoBehaviour
     [Header("Lobby")] 
     public Transform UIPlayerParent;
     public GameObject UIPlayerPrefab;
-    
+    public GameObject BeginGameButton;
 
     private bool isHostStarting = false;
     private bool isServerStarting = false;
     private bool isMatchJoining = false;
+
+    [Header("Scene Management")] 
+    [Scene]
+    // [FormerlySerializedAs("OnlineScene")]
+    public string OnlineScene;
+    
+    
 
     // Start is called before the first frame update
     void Start()
@@ -54,9 +63,11 @@ public class ConnectManager : MonoBehaviour
         if (isMatchJoining && Player.localPlayer != null)
         {
             print("Calling method Join() from LocalPlayer");
-            Player.localPlayer.Join(matchId_InputField.text);
+            Player.localPlayer.Join(matchId_InputField.text.ToUpper());
             isMatchJoining = false;
         }
+        
+        
     }
 
 
@@ -115,10 +126,11 @@ public class ConnectManager : MonoBehaviour
     {
         if (success)
         {
-            print("hosted succeed. loading canvas");
+            //print("hosted succeed. loading canvas");
             LobbyCanvas.enabled = true;
             matchIdTag.text = _matchId;
-            //AddInfoAboutPlayerToCanvas("test");
+            BeginGameButton.SetActive(true);
+
         } 
     }
 
@@ -136,5 +148,10 @@ public class ConnectManager : MonoBehaviour
         print("Spawning UI Player Prefab"); 
         GameObject UIPlayer = Instantiate(UIPlayerPrefab, UIPlayerParent);   
         UIPlayer.GetComponent<UIPlayer>().SetPlayer(player);
+    }
+
+    public void BeginGame()
+    {
+        Player.localPlayer.BeginGame();
     }
 }

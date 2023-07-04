@@ -16,6 +16,8 @@ public class MatchMaker : NetworkBehaviour
     public SyncListMatch matches = new SyncListMatch();
     public SyncListString matchIDs = new SyncListString();
 
+    public GameObject TurnManagerPrefab;
+    
     public bool HostGame(string _matchID, GameObject _player, out int playerIndex)
     {
         playerIndex = -1;
@@ -23,6 +25,7 @@ public class MatchMaker : NetworkBehaviour
         {
             matchIDs.Add(_matchID);
             Match match = Instantiate(matchPrefab);
+            match.GetComponent<NetworkMatch>().matchId = _matchID.toGuid();
             match.matchID = _matchID;
             match.players.Add(_player);
             matches.Add(match);
@@ -91,6 +94,32 @@ public class MatchMaker : NetworkBehaviour
         return _id;
 
     }
+
+    public void BeginGame(string _matchId)
+    {
+        
+        GameObject newTurnManager = Instantiate(TurnManagerPrefab);
+        NetworkServer.Spawn(newTurnManager);
+        newTurnManager.GetComponent<NetworkMatch>().matchId = _matchId.toGuid();
+        TurnManager turnManager = newTurnManager.GetComponent<TurnManager>();
+        
+        foreach (Match m in matches)
+        {
+            if (m.matchID == _matchId)
+            {
+                foreach (GameObject p in m.players)
+                {
+                    Player _player = p.GetComponent<Player>();
+                    turnManager.AddPlayer(_player);
+                    
+                    _player.StartGame();
+                }
+                
+                break;
+            }
+        }
+    }
+    
 }
 
 public static class MatchExtensions

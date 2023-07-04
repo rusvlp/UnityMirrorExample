@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using UnityEngine.SceneManagement;
+
 
 public class Player : NetworkBehaviour
 {
@@ -12,7 +14,8 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public string MatchID;
 
-    [SyncVar] public int playerIndex;
+    [SyncVar] 
+    public int playerIndex;
 
     private void Start()
     {
@@ -34,6 +37,7 @@ public class Player : NetworkBehaviour
         
     }
 
+    #region HostGame
     public void Host()
     {
         print("Player's method Host() is called");
@@ -72,8 +76,9 @@ public class Player : NetworkBehaviour
         ConnectManager.Instance.HostSuccess(success, _matchID);
         ConnectManager.Instance.SpawnPlayerUIPrefab(this);
     }
+    #endregion
 
-
+    #region JoinGame
     public void Join(string _matchId)
     {
         print("Player's method Join() is called");
@@ -93,9 +98,13 @@ public class Player : NetworkBehaviour
             players = MatchMaker.Instance.matches
                 .Find(match => match.matchID == _matchID)
                 .players
-                .Select(go => go.GetComponent<Player>())
+                .Select(go =>
+                {
+                    return go.GetComponent<Player>();
+                })
                 .ToList();
             
+
             networkMatch.matchId = _matchID.toGuid();
             print("Game joined successfully");
             
@@ -109,11 +118,6 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [TargetRpc]
-    public void TargetPrint(string message)
-    {
-        print(message);
-    }
     
     [TargetRpc]
     void TargetJoinGame(bool success, string _matchID, List<Player> players)
@@ -121,13 +125,57 @@ public class Player : NetworkBehaviour
         print("Match id is: " + _matchID);
         ConnectManager.Instance.JoinSuccess(success, _matchID);
 
+        players[players.Count - 1].playerIndex = players.Count;
+        
         foreach (Player p in players)
         {
+            //print("Spawning Player Prefab with Index: " + p.playerIndex); 
             ConnectManager.Instance.SpawnPlayerUIPrefab(p);
         }
        
     }    
+    #endregion
+    
+    
+    #region BeginGame
 
+    public void BeginGame()
+    {
+        CmdBeginGame();
+    }
+    
+    [Command]
+    void CmdBeginGame()
+    {
+
+        MatchMaker.Instance.BeginGame(MatchID);
+        print("Game is beginning");
+        
+    }
+
+    public void StartGame()
+    {
+        TargetBeginGame();
+    }
+    
+    [TargetRpc]
+    void TargetBeginGame()
+    {
+        //Загрузка сцены будет тут
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+    }    
+    
+    #endregion
+    
+    
+    [TargetRpc]
+    public void TargetPrint(string message)
+    {
+        print(message);
+    }
+
+    
+    
     #region Commented
     // Start is called before the first frame update
     //void Start()
