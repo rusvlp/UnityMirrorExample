@@ -106,7 +106,7 @@ namespace Mirror
 
         /// <summary>Unique identifier for NetworkIdentity objects within a scene, used for spawning scene objects.</summary>
         // persistent scene id <sceneHash/32,sceneId/32> (see AssignSceneID comments)
-        [FormerlySerializedAs("m_SceneId"), HideInInspector]
+        [FormerlySerializedAs("m_SceneId")]
         public ulong sceneId;
 
         // assetId used to spawn prefabs across the network.

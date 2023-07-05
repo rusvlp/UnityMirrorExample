@@ -102,11 +102,15 @@ public class MatchMaker : NetworkBehaviour
         NetworkServer.Spawn(newTurnManager);
         newTurnManager.GetComponent<NetworkMatch>().matchId = _matchId.toGuid();
         TurnManager turnManager = newTurnManager.GetComponent<TurnManager>();
-        
+
+
+        int index = 0;
         foreach (Match m in matches)
         {
             if (m.matchID == _matchId)
             {
+                m.GetComponent<NetworkIdentity>().sceneId = Convert.ToUInt64(index+1);
+                
                 foreach (GameObject p in m.players)
                 {
                     Player _player = p.GetComponent<Player>();
@@ -117,6 +121,8 @@ public class MatchMaker : NetworkBehaviour
                 
                 break;
             }
+
+            index++;
         }
     }
     

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ public class Player : NetworkBehaviour
     public static Player localPlayer;
     NetworkMatch networkMatch;
 
+    public GameObject PlayerPrefab;
+    
     [SyncVar]
     public string MatchID;
 
@@ -37,6 +40,9 @@ public class Player : NetworkBehaviour
         
     }
 
+    
+    
+    
     #region HostGame
     public void Host()
     {
@@ -162,7 +168,15 @@ public class Player : NetworkBehaviour
     void TargetBeginGame()
     {
         //Загрузка сцены будет тут
-        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        ConnectManager.Instance.DisableLobbyUi();
+
+        Vector3 spawnPosition = new Vector3(0, 1, 0);
+        Quaternion spawnRotation = new Quaternion(0, 0, 0, 0);
+        GameObject player = Instantiate(PlayerPrefab, spawnPosition, spawnRotation);
+      //  player.GetComponent<NetworkIdentity>().sceneId = Convert.ToUInt64(UnityEngine.Random.Range(1, 100));
+
     }    
     
     #endregion

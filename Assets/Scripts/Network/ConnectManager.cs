@@ -22,9 +22,11 @@ public class ConnectManager : MonoBehaviour
     
     [Header("Host Join")]
     
+    
     public TMP_InputField ip_InputField;
     public TMP_InputField matchId_InputField;
 
+    public Canvas MenuCanvas;
     public Canvas LobbyCanvas;
 
     [Header("Lobby")] 
@@ -150,6 +152,12 @@ public class ConnectManager : MonoBehaviour
         UIPlayer.GetComponent<UIPlayer>().SetPlayer(player);
     }
 
+    public void DisableLobbyUi()
+    {
+        LobbyCanvas.enabled = false;
+        MenuCanvas.enabled = false;
+    }
+    
     public void BeginGame()
     {
         Player.localPlayer.BeginGame();

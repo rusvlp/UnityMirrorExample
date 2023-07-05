@@ -7,8 +7,9 @@ using Mirror;
 public class Match : NetworkBehaviour
 {
     public string matchID;
-
+    
     public SyncListGameObject players = new();
+    public int sceneId = 0;
 
     public Match(string matchID, GameObject playerHost)
     {
