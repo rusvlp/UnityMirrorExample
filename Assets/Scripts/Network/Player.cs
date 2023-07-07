@@ -178,8 +178,10 @@ public class Player : NetworkBehaviour
         Vector3 spawnPosition = new Vector3(0, 1, 0);
         Quaternion spawnRotation = new Quaternion(0, 0, 0, 0);
         GameObject player = Instantiate(PlayerPrefab, spawnPosition, spawnRotation);
-        //this.GetComponent<NetworkIdentity>().sceneId = Convert.ToUInt64(GetHashCode());
         player.GetComponent<NetworkIdentity>().sceneId = Convert.ToUInt64(this.playerIndex);
+        NetworkServer.Spawn(player);
+        //this.GetComponent<NetworkIdentity>().sceneId = Convert.ToUInt64(GetHashCode());
+        
 
     }    
     
