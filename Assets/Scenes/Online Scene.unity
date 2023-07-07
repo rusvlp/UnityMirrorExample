@@ -1615,7 +1615,7 @@ MonoBehaviour:
   autoStartServerBuild: 1
   autoConnectClientBuild: 0
   sendRate: 30
-  offlineScene: Assets/Scenes/Offline Scene.unity
+  offlineScene: 
   onlineScene: Assets/Scenes/Online Scene.unity
   transport: {fileID: 451693159}
   networkAddress: localhost
@@ -1631,7 +1631,7 @@ MonoBehaviour:
     m_Handle: 0
   ServerOnlineScene: 
   ServerOfflineScene: 
-  DevicesListController: {fileID: 1418323449}
+  devicesListController: {fileID: 0}
 --- !u!114 &451693162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3834,6 +3834,8 @@ MonoBehaviour:
   serverMenu: {fileID: 718721657}
   devicesList_window: {fileID: 425318502}
   sessions_window: {fileID: 837509008}
+  manager: {fileID: 0}
+  serverStatus: {fileID: 0}
 --- !u!114 &1418323452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3891,6 +3893,7 @@ MonoBehaviour:
   serverStatus: {fileID: 1528786518}
   StopHostBtn: {fileID: 698569153}
   StopServerBtn: {fileID: 1784769368}
+  statusSign: {fileID: 0}
 --- !u!4 &1438373363
 Transform:
   m_ObjectHideFlags: 0

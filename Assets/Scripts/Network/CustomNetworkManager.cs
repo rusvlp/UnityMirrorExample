@@ -97,6 +97,15 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerAddPlayer(conn);
         NetworkServer.SetClientReady(conn);
+
+        foreach (GameObject prefab in spawnPrefabs)
+        {
+            if (prefab != null)
+            {
+                print($"Prefab {prefab} is registered");
+                NetworkClient.RegisterPrefab(prefab);
+            }
+        }
        // DevicesListController.GetComponent<DevicesListController>().AddConnection(conn);
     }
 

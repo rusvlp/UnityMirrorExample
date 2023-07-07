@@ -28,6 +28,10 @@ public class InputManager : MonoBehaviour
     
     void Start()
     {
+        print("Input manager initialized");
+        
+        playerObj = PlayerController.LocalPlayerController;
+        
         _instance = this;
     }
 
@@ -44,6 +48,9 @@ public class InputManager : MonoBehaviour
         
         movementVector.x = Input.GetAxis("Horizontal");
         movementVector.z = Input.GetAxis("Vertical");
+
+       
+        
         if (this.playerObj != null)
         {
             playerObj.CmdMovePlayer(movementVector);

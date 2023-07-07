@@ -9,13 +9,29 @@ public class PlayerController : NetworkBehaviour
    [SyncVar] 
    [SerializeField] 
    public float speed;
+
+   public static PlayerController LocalPlayerController;
+   
    
    private Rigidbody rb;
 
 
    private void Start()
    {
-      print("Player initialized");
+      print("Player controller initialized");
+      
+      LocalPlayerController = this;
+      if (isLocalPlayer)
+      {
+         print("Is local player worked");
+         
+      }
+      else
+      {
+         print("Is local player DIDN'T worked");
+      }
+      
+      
       
       rb = this.GetComponent<Rigidbody>();
 
